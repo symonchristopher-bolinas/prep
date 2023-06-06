@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Virtual Map</title>
+  <style>
+    body {
+      cursor: move;
+      position: relative;
+    }
+
+    #background-img {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    .button {
+      position: absolute;
+      font-size: 16px;
+      padding: 10px 20px;
+    }
+
+    .button-middle1 {
+      top: 90%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      position: fixed;
+      z-index: 999;
+    }
+
+    .button-top-right {
+      top: 10px;
+      right: 10px;
+    }
+  </style>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      const body = document.querySelector('body');
+      const backgroundImg = document.getElementById('background-img');
+      let isMouseDown = false;
+      let startX;
+      let startY;
+      let initialScrollLeft;
+      let initialScrollTop;
+
+      body.addEventListener('mousedown', (event) => {
+        isMouseDown = true;
+        startX = event.clientX;
+        startY = event.clientY;
+        initialScrollLeft = body.scrollLeft;
+        initialScrollTop = body.scrollTop;
+      });
+
+      body.addEventListener('mousemove', (event) => {
+        if (!isMouseDown) return;
+
+        const x = event.clientX - startX;
+        const y = event.clientY - startY;
+        body.scrollLeft = initialScrollLeft - x;
+        body.scrollTop = initialScrollTop - y;
+      });
+
+      body.addEventListener('mouseup', () => {
+        isMouseDown = false;
+      });
+
+      backgroundImg.addEventListener('mousedown', (event) => {
+        event.preventDefault(); // Prevents selection of the image while dragging
+      });
+    });
+  </script>
+</head>
+<body>
+  <img id="background-img" src="../assets/map/p23.jpg" alt="Background Image">
+
+  <!-- Button in the middle -->
+  <a href="p22.html" class="button button-middle1">
+    <i class="fas fa-chevron-down" style="font-size: 100px; color: white; opacity: 0.5;"></i>
+  </a>
+
+  <!-- Button in the top right -->
+  <button class="button button-top-right">
+    <a href="../index.html" style="text-decoration: none; color: black;">Home<i class="fas fa-home"></i></a>
+  </button>
+</body>
+</html>
